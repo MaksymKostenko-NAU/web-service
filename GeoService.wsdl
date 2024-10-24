@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             targetNamespace="http://localhost:8000/geoservice"
+             xmlns:tns="http://localhost:8000/geoservice"
+             name="GeoService">
+
+    <types>
+        <xsd:schema targetNamespace="http://localhost:8000/geoservice">
+            <xsd:element name="GetCoordinatesRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="city" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetCoordinatesResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="latitude" type="xsd:float" minOccurs="0"/>
+                        <xsd:element name="longitude" type="xsd:float" minOccurs="0"/>
+                        <xsd:element name="error" type="xsd:string" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetCityRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="latitude" type="xsd:float"/>
+                        <xsd:element name="longitude" type="xsd:float"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="GetCityResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="city" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="error" type="xsd:string" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </types>
+
+    <message name="GetCoordinatesRequest">
+        <part name="parameters" element="tns:GetCoordinatesRequest"/>
+    </message>
+    <message name="GetCoordinatesResponse">
+        <part name="parameters" element="tns:GetCoordinatesResponse"/>
+    </message>
+    <message name="GetCityRequest">
+        <part name="parameters" element="tns:GetCityRequest"/>
+    </message>
+    <message name="GetCityResponse">
+        <part name="parameters" element="tns:GetCityResponse"/>
+    </message>
+
+    <portType name="GeoServicePortType">
+        <operation name="GetCoordinates">
+            <input message="tns:GetCoordinatesRequest"/>
+            <output message="tns:GetCoordinatesResponse"/>
+        </operation>
+        <operation name="GetCity">
+            <input message="tns:GetCityRequest"/>
+            <output message="tns:GetCityResponse"/>
+        </operation>
+    </portType>
+
+    <service name="GeoService">
+        <port name="GeoServicePort" binding="tns:GeoServicePortType">
+            <address location="http://localhost:8000/geo-service/index.php"/>
+        </port>
+    </service>
+</definitions>
